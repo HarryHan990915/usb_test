@@ -23,7 +23,7 @@
 
 /* USER CODE BEGIN INCLUDE */
 #include <string.h>
-#include "fat12_disk.h"
+#include "iso9660_disk.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,11 +65,11 @@
 
 #define STORAGE_LUN_NBR                  1
 
-/* Single LUN: read-only FAT12 volume (START_HERE.html + autorun.inf),
- * generated on the fly in STORAGE_Read_HS() -- no disk image is stored
- * in flash. See fat12_disk.h. */
-#define STORAGE_BLK_NBR                  FAT12_TOTAL_SECTORS
-#define STORAGE_BLK_SIZ                  FAT12_BYTES_PER_SECTOR
+/* Single LUN: ISO9660 CD-ROM (AUTORUN.INF + INSTALL.HTM), drives AutoPlay.
+ * Generated on the fly in STORAGE_Read_HS() -- no disk image is stored
+ * in flash. See iso9660_disk.h. */
+#define STORAGE_BLK_NBR                  ISO9660_TOTAL_SECTORS
+#define STORAGE_BLK_SIZ                  ISO9660_BYTES_PER_SECTOR
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
@@ -101,8 +101,8 @@
 /** USB Mass storage Standard Inquiry Data. */
 const int8_t STORAGE_Inquirydata_HS[] = {/* 36 */
 
-  /* LUN 0 : direct-access block device (peripheral device type 0x00), removable (RMB=1) */
-  0x00,
+  /* LUN 0 : CD-ROM (peripheral device type 0x05), removable (RMB=1) */
+  0x05,
   0x80,
   0x02,
   0x02,
@@ -252,7 +252,7 @@ int8_t STORAGE_Read_HS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t bl
 
   for (uint16_t i = 0U; i < blk_len; i++)
   {
-    FAT12_BuildSector(blk_addr + i, buf + ((uint32_t)i * FAT12_BYTES_PER_SECTOR));
+    ISO9660_BuildSector(blk_addr + i, buf + ((uint32_t)i * ISO9660_BYTES_PER_SECTOR));
   }
 
   return (USBD_OK);

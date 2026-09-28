@@ -75,10 +75,10 @@
 /*---------- -----------*/
 #define USBD_SELF_POWERED     1U
 /*---------- -----------*/
-/* Must be a multiple of the largest LUN block size (512 for the FAT12
- * volume's sectors); SCSI_ProcessRead/Write divide it by block size
+/* Must be a multiple of the largest LUN block size (2048 for the CD-ROM
+ * LUN's ISO9660 sectors); SCSI_ProcessRead/Write divide it by block size
  * to compute blocks-per-transfer. */
-#define MSC_MEDIA_PACKET     512U
+#define MSC_MEDIA_PACKET     2048U
 
 /****************************************/
 /* #define for FS and HS identification */
